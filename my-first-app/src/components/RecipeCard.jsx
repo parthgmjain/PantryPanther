@@ -1,5 +1,10 @@
 // src/components/RecipeCard.jsx
+import { useSavedRecipes } from '../context/SavedRecipesContext';
+
 function RecipeCard({ recipe, showMatchInfo = false }) {
+  const { saveRecipe, unsaveRecipe, isSaved } = useSavedRecipes();
+  const saved = isSaved(recipe.id);
+
   const formatTime = (timeString) => {
     if (!timeString || timeString === '') return 'N/A';
     
@@ -23,7 +28,10 @@ function RecipeCard({ recipe, showMatchInfo = false }) {
     return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}min` : `${hours}h`;
   };
 
-  const handleCardClick = () => {
+  const handleCardClick = (e) => {
+    // Don't trigger if clicking the save button
+    if (e.target.closest('.save-recipe-btn')) return;
+    
     if (recipe.url) {
       window.open(recipe.url, '_blank');
     } else {
@@ -32,18 +40,36 @@ function RecipeCard({ recipe, showMatchInfo = false }) {
     }
   };
 
+  const handleSaveClick = (e) => {
+    e.stopPropagation();
+    if (saved) {
+      unsaveRecipe(recipe.id);
+    } else {
+      saveRecipe(recipe);
+    }
+  };
+
   // Get match percentage color
   const getMatchColor = (percentage) => {
-    if (percentage >= 80) return '#22c55e'; // Green - great match
-    if (percentage >= 50) return '#f59e0b'; // Orange - decent match
-    return '#ef4444'; // Red - poor match
+    if (percentage >= 80) return '#22c55e';
+    if (percentage >= 50) return '#f59e0b';
+    return '#ef4444';
   };
 
   return (
     <div className="recipe-card" onClick={handleCardClick}>
-      <h3>{recipe.name}</h3>
+      <div className="recipe-card-header">
+        <h3>{recipe.name}</h3>
+        <button 
+          className={`save-recipe-btn ${saved ? 'saved' : ''}`}
+          onClick={handleSaveClick}
+          title={saved ? 'Remove from saved' : 'Save recipe'}
+        >
+          {saved ? '❤️' : '🤍'}
+        </button>
+      </div>
       
-      {showMatchInfo && recipe.matchPercentage && (
+      {showMatchInfo && recipe.matchPercentage !== undefined && (
         <div className="match-indicator">
           <div className="match-bar">
             <div 
@@ -58,7 +84,7 @@ function RecipeCard({ recipe, showMatchInfo = false }) {
             <span>🍳 {Math.round(recipe.matchPercentage)}% match</span>
             <span>({recipe.matchedCount}/{recipe.totalIngredients} ingredients)</span>
           </div>
-          {recipe.missingIngredients.length > 0 && (
+          {recipe.missingIngredients && recipe.missingIngredients.length > 0 && (
             <div className="missing-ingredients">
               <small>Missing: {recipe.missingIngredients.slice(0, 3).join(', ')}</small>
               {recipe.missingIngredients.length > 3 && (

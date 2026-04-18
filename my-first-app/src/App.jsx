@@ -1,15 +1,18 @@
 // src/App.jsx
 import { useState } from 'react';
 import './App.css';
+import { SavedRecipesProvider } from './context/SavedRecipesContext';
 import PantryList from './components/PantryList';
 import RecipeSearch from './components/RecipeSearch';
 import RecipeList from './components/RecipeList';
+import SavedRecipes from './components/SavedRecipes';
 import './components/PantryList.css';
 import './components/RecipeSearch.css';
 import './components/RecipeCard.css';
 import './components/RecipeList.css';
+import './components/SavedRecipes.css';
 
-function App() {
+function AppContent() {
   const [pantryIngredients, setPantryIngredients] = useState([]);
   const [searchFilters, setSearchFilters] = useState({
     searchTerm: '',
@@ -17,12 +20,10 @@ function App() {
     minRating: null
   });
 
-  // Handle pantry updates from PantryList
   const handlePantryUpdate = (ingredients) => {
     setPantryIngredients(ingredients);
   };
 
-  // Handle search filters from RecipeSearch
   const handleSearch = (filters) => {
     setSearchFilters(filters);
   };
@@ -36,9 +37,12 @@ function App() {
       
       <main className="app-main">
         <PantryList onUpdate={handlePantryUpdate} />
+        
+        {/* Saved Recipes Section - appears above search */}
+        <SavedRecipes />
+        
         <RecipeSearch onSearch={handleSearch} />
         
-        {/* Show active filters */}
         {(searchFilters.searchTerm || searchFilters.maxTime || searchFilters.minRating) && (
           <div className="active-filters">
             <h4>Active Filters:</h4>
@@ -62,6 +66,14 @@ function App() {
         />
       </main>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <SavedRecipesProvider>
+      <AppContent />
+    </SavedRecipesProvider>
   );
 }
 

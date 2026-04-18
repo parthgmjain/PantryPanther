@@ -66,3 +66,36 @@
     font-size: 11px;
     color: #666;
   }
+
+  /* Add to RecipeCard.css */
+.recipe-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .recipe-card-header h3 {
+    margin: 0;
+    flex: 1;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .save-recipe-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: transform 0.2s;
+    line-height: 1;
+  }
+  
+  .save-recipe-btn:hover {
+    transform: scale(1.1);
+  }
+  
+  .save-recipe-btn.saved {
+    color: #dc2626;
+  }

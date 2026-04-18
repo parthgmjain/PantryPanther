@@ -1,0 +1,95 @@
+/* src/components/SavedRecipes.css */
+.saved-recipes {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .saved-recipes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .saved-recipes-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .saved-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .clear-saved-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+  }
+  
+  .clear-saved-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .saved-recipes-header .toggle-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 5px;
+  }
+  
+  .saved-recipes-empty {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+  
+  .saved-recipes-empty p {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+  }
+  
+  .saved-recipes-empty small {
+    color: #999;
+  }
+  
+  .saved-recipes-content {
+    padding: 20px;
+  }
+  
+  .saved-recipes-content .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .saved-recipes-content {
+      padding: 15px;
+    }
+    
+    .saved-header-actions {
+      gap: 8px;
+    }
+    
+    .clear-saved-btn {
+      padding: 4px 8px;
+      font-size: 11px;
+    }
+  }
