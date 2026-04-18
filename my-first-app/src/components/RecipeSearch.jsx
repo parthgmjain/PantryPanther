@@ -1,7 +1,7 @@
 // src/components/RecipeSearch.jsx
 import { useState } from 'react';
 
-function RecipeSearch({ onSearch }) {
+function RecipeSearch() {
   // State for search inputs
   const [searchTerm, setSearchTerm] = useState('');
   const [maxTime, setMaxTime] = useState('');
