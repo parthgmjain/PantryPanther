@@ -8,6 +8,33 @@ function PantryList({ onUpdate }) {
   const [suggestions, setSuggestions] = useState([]);
   const { allIngredients, loading } = useIngredients();
 
+  // Load saved ingredients from localStorage when component mounts
+  useEffect(() => {
+    const savedIngredients = localStorage.getItem('pantryIngredients');
+    if (savedIngredients) {
+      const parsedIngredients = JSON.parse(savedIngredients);
+      setIngredients(parsedIngredients);
+      // Notify parent of loaded ingredients
+      if (onUpdate) {
+        onUpdate(parsedIngredients);
+      }
+    }
+  }, []); // Empty array means this runs once when component loads
+
+  // Save ingredients to localStorage whenever they change
+  useEffect(() => {
+    if (ingredients.length > 0) {
+      localStorage.setItem('pantryIngredients', JSON.stringify(ingredients));
+    } else {
+      // If pantry is empty, remove from localStorage
+      localStorage.removeItem('pantryIngredients');
+    }
+    // Notify parent of the update
+    if (onUpdate) {
+      onUpdate(ingredients);
+    }
+  }, [ingredients]); // Runs every time ingredients change
+
   // Update suggestions based on current input
   useEffect(() => {
     if (currentIngredient.trim().length > 0 && allIngredients.length > 0) {
@@ -27,26 +54,23 @@ function PantryList({ onUpdate }) {
       setIngredients(updatedIngredients);
       setCurrentIngredient('');
       setSuggestions([]);
-      // Notify parent component of the update
-      if (onUpdate) {
-        onUpdate(updatedIngredients);
-      }
     }
   };
 
   const removeIngredient = (indexToRemove) => {
     const updatedIngredients = ingredients.filter((_, index) => index !== indexToRemove);
     setIngredients(updatedIngredients);
-    // Notify parent component of the update
-    if (onUpdate) {
-      onUpdate(updatedIngredients);
-    }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       addIngredient(currentIngredient);
     }
+  };
+
+  const clearAllIngredients = () => {
+    setIngredients([]);
+    localStorage.removeItem('pantryIngredients');
   };
 
   return (
@@ -111,10 +135,7 @@ function PantryList({ onUpdate }) {
           </div>
           <button 
             className="clear-all-btn"
-            onClick={() => {
-              setIngredients([]);
-              if (onUpdate) onUpdate([]);
-            }}
+            onClick={clearAllIngredients}
           >
             Clear All
           </button>
