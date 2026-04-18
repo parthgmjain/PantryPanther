@@ -1,0 +1,174 @@
+/* src/components/RecipeSearch.css */
+.recipe-search {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  
+  .search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .search-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .toggle-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .search-filters {
+    padding: 20px;
+  }
+  
+  .filter-group {
+    margin-bottom: 20px;
+  }
+  
+  .filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .filter-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .filter-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  }
+  
+  .time-input, .rating-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .time-input input, .rating-input input {
+    flex: 1;
+  }
+  
+  .time-unit {
+    color: #666;
+    font-size: 14px;
+    min-width: 60px;
+  }
+  
+  .rating-stars {
+    color: #f59e0b;
+    font-size: 14px;
+    min-width: 100px;
+  }
+  
+  .search-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .search-btn, .clear-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .search-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+  
+  .search-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+  
+  .clear-btn {
+    background: #f3f4f6;
+    color: #666;
+  }
+  
+  .clear-btn:hover {
+    background: #e5e7eb;
+  }
+  
+  .quick-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .suggestion-label {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .suggestion-btn {
+    background: #f3f4f6;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .suggestion-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .search-actions {
+      flex-direction: column;
+    }
+    
+    .quick-suggestions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .time-input, .rating-input {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .time-unit, .rating-stars {
+      text-align: center;
+    }
+  }
