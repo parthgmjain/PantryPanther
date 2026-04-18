@@ -1,61 +1,141 @@
 /* src/components/PantryList.css */
 .pantry-list {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
   }
   
   .pantry-list h2 {
+    margin: 0 0 8px 0;
     color: #333;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+  
+  .pantry-subtitle {
+    margin: 0 0 20px 0;
+    color: #666;
+    font-size: 0.9rem;
   }
   
   .input-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin-bottom: 16px;
   }
   
   .input-section input {
     flex: 1;
-    padding: 12px;
+    padding: 12px 16px;
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+  
+  .input-section input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  
+  .input-section input:disabled {
+    background-color: #f9fafb;
+    cursor: not-allowed;
   }
   
   .input-section button {
     padding: 12px 24px;
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
+    transition: transform 0.2s;
   }
   
-  .input-section button:hover {
-    background-color: #45a049;
+  .input-section button:hover:not(:disabled) {
+    transform: translateY(-2px);
   }
   
-  .empty-message {
-    color: #999;
+  .input-section button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Suggestion buttons */
+  .ingredient-suggestions {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 12px;
+  }
+  
+  .ingredient-suggestions p {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .suggestion-btn {
+    background: #e0e7ff;
+    color: #4338ca;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .suggestion-btn:hover {
+    background: #c7d2fe;
+    transform: scale(1.02);
+  }
+  
+  /* Empty pantry state */
+  .empty-pantry {
     text-align: center;
     padding: 40px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+    background: #f9fafb;
+    border-radius: 12px;
+    color: #666;
+  }
+  
+  .empty-pantry p {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+  }
+  
+  .empty-pantry small {
+    color: #999;
+  }
+  
+  /* Ingredients list */
+  .ingredients-list {
+    margin-top: 8px;
   }
   
   .ingredients-list h3 {
-    color: #555;
-    margin-bottom: 15px;
+    margin: 0 0 12px 0;
+    font-size: 1rem;
+    color: #666;
   }
   
   .ingredient-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 16px;
   }
   
   .ingredient-tag {
@@ -63,71 +143,62 @@
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background-color: #e0f2fe;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-radius: 24px;
     font-size: 14px;
+    border: 1px solid #e0e7ff;
   }
   
   .ingredient-tag span {
-    color: #0369a1;
+    color: #4338ca;
   }
   
   .remove-btn {
     background: none;
     border: none;
     cursor: pointer;
-    color: #666;
+    color: #999;
     font-size: 16px;
     padding: 0 4px;
+    transition: color 0.2s;
   }
   
   .remove-btn:hover {
     color: #dc2626;
   }
-
-  autocomplete-container {
-    flex: 1;
-    position: relative;
-  }
   
-  .autocomplete-container input {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .autocomplete-suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .suggestion-item {
-    padding: 10px 12px;
+  .clear-all-btn {
+    background: #f3f4f6;
+    color: #666;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.2s;
-    font-size: 14px;
+    font-size: 13px;
+    transition: all 0.2s;
   }
   
-  .suggestion-item:hover,
-  .suggestion-item.selected {
-    background-color: #e0f2fe;
+  .clear-all-btn:hover {
+    background: #e5e7eb;
+    color: #dc2626;
   }
   
-  .input-section button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pantry-list {
+      padding: 16px;
+    }
+    
+    .input-section {
+      flex-direction: column;
+    }
+    
+    .input-section button {
+      width: 100%;
+    }
+    
+    .ingredient-tag {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
   }
-  

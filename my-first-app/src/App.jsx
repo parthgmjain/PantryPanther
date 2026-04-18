@@ -1,4 +1,5 @@
 // src/App.jsx
+import { useState } from 'react';
 import './App.css';
 import PantryList from './components/PantryList';
 import RecipeSearch from './components/RecipeSearch';
@@ -9,6 +10,13 @@ import './components/RecipeCard.css';
 import './components/RecipeList.css';
 
 function App() {
+  const [pantryIngredients, setPantryIngredients] = useState([]);
+
+  // This function will be called from PantryList when ingredients change
+  const handlePantryUpdate = (ingredients) => {
+    setPantryIngredients(ingredients);
+  };
+
   return (
     <div className="App">
       <header className="app-header">
@@ -17,9 +25,9 @@ function App() {
       </header>
       
       <main className="app-main">
-        <PantryList />
+        <PantryList onUpdate={handlePantryUpdate} />
         <RecipeSearch />
-        <RecipeList />
+        <RecipeList pantryIngredients={pantryIngredients} />
       </main>
     </div>
   );

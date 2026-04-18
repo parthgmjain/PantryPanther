@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import useIngredients from '../hooks/useIngredients';
 
-function PantryList() {
+function PantryList({ onUpdate }) {
   const [ingredients, setIngredients] = useState([]);
   const [currentIngredient, setCurrentIngredient] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -23,14 +23,24 @@ function PantryList() {
   const addIngredient = (ingredient) => {
     const newIngredient = ingredient.trim().toLowerCase();
     if (newIngredient !== '' && !ingredients.includes(newIngredient)) {
-      setIngredients([...ingredients, newIngredient]);
+      const updatedIngredients = [...ingredients, newIngredient];
+      setIngredients(updatedIngredients);
       setCurrentIngredient('');
       setSuggestions([]);
+      // Notify parent component of the update
+      if (onUpdate) {
+        onUpdate(updatedIngredients);
+      }
     }
   };
 
   const removeIngredient = (indexToRemove) => {
-    setIngredients(ingredients.filter((_, index) => index !== indexToRemove));
+    const updatedIngredients = ingredients.filter((_, index) => index !== indexToRemove);
+    setIngredients(updatedIngredients);
+    // Notify parent component of the update
+    if (onUpdate) {
+      onUpdate(updatedIngredients);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -41,7 +51,8 @@ function PantryList() {
 
   return (
     <div className="pantry-list">
-      <h2>My Pantry</h2>
+      <h2>📦 My Pantry</h2>
+      <p className="pantry-subtitle">Add ingredients you have at home</p>
       
       <div className="input-section">
         <input
@@ -50,16 +61,17 @@ function PantryList() {
           onChange={(e) => setCurrentIngredient(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder={loading ? "Loading ingredients..." : "Type an ingredient (e.g., chicken, rice, tomatoes)"}
+          disabled={loading}
         />
-        <button onClick={() => addIngredient(currentIngredient)}>
-          Add Ingredient
+        <button onClick={() => addIngredient(currentIngredient)} disabled={loading}>
+          + Add
         </button>
       </div>
 
-      {/* Regular dropdown select instead of autocomplete */}
+      {/* Suggestion buttons */}
       {suggestions.length > 0 && (
         <div className="ingredient-suggestions">
-          <p>Suggestions:</p>
+          <p>💡 Suggestions:</p>
           <div className="suggestion-buttons">
             {suggestions.map((suggestion, index) => (
               <button
@@ -74,24 +86,38 @@ function PantryList() {
         </div>
       )}
 
+      {/* Display current pantry ingredients */}
       {ingredients.length === 0 ? (
-        <p className="empty-message">No ingredients yet. Add what you have!</p>
+        <div className="empty-pantry">
+          <p>🍽️ Your pantry is empty</p>
+          <small>Add ingredients to see matching recipes!</small>
+        </div>
       ) : (
         <div className="ingredients-list">
           <h3>Your Ingredients ({ingredients.length})</h3>
           <div className="ingredient-tags">
             {ingredients.map((ingredient, index) => (
               <div key={index} className="ingredient-tag">
-                <span>{ingredient}</span>
+                <span>🥕 {ingredient}</span>
                 <button 
                   onClick={() => removeIngredient(index)}
                   className="remove-btn"
+                  title="Remove ingredient"
                 >
                   ✕
                 </button>
               </div>
             ))}
           </div>
+          <button 
+            className="clear-all-btn"
+            onClick={() => {
+              setIngredients([]);
+              if (onUpdate) onUpdate([]);
+            }}
+          >
+            Clear All
+          </button>
         </div>
       )}
     </div>

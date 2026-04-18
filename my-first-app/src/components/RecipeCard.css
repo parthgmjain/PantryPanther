@@ -30,3 +30,39 @@
     color: #667eea;
     text-align: right;
   }
+
+  /* Add to RecipeCard.css */
+.match-indicator {
+    margin: 12px 0;
+    padding: 10px;
+    background: #f9fafb;
+    border-radius: 8px;
+  }
+  
+  .match-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  
+  .match-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  
+  .match-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  .missing-ingredients {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #666;
+  }

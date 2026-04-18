@@ -1,62 +1,49 @@
 // src/components/RecipeList.jsx
 import RecipeCard from './RecipeCard';
+import useRecipes from '../hooks/useRecipes';
+import useMatchedRecipes from '../hooks/useMatchedRecipes';
 
-// STATIC PRESET RECIPES - no changes needed, just for testing
-const RECIPES = [
-  {
-    id: 1,
-    name: "Spaghetti Carbonara",
-    prepTime: 10,
-    cookTime: 20,
-    yield: "4 servings",
-    rating: 4.8,
-    url: "https://www.allrecipes.com/recipe/11973/spaghetti-carbonara/"
-  },
-  {
-    id: 2,
-    name: "Chicken Stir Fry",
-    prepTime: 15,
-    cookTime: 10,
-    yield: "2 servings",
-    rating: 4.5,
-    url: "https://www.recipetineats.com/chicken-stir-fry/"
-  },
-  {
-    id: 3,
-    name: "Vegetable Curry",
-    prepTime: 20,
-    cookTime: 25,
-    yield: "4 servings",
-    rating: 4.7,
-    url: "https://www.bbcgoodfood.com/recipes/thai-vegetable-curry"
-  },
-  {
-    id: 4,
-    name: "Avocado Toast",
-    prepTime: 5,
-    cookTime: 0,
-    yield: "1 serving",
-    rating: 4.3,
-    url: "https://www.loveandlemons.com/avocado-toast/"
-  },
-  {
-    id: 5,
-    name: "Beef Stew",
-    prepTime: 20,
-    cookTime: 120,
-    yield: "6 servings",
-    rating: 4.9,
-    url: "https://www.simplyrecipes.com/recipes/beef_stew/"
+function RecipeList({ pantryIngredients = [] }) {
+  const { recipes, loading, error } = useRecipes();
+  const matchedRecipes = useMatchedRecipes(recipes, pantryIngredients);
+
+  if (loading) {
+    return <div className="recipe-list-loading">Loading recipes...</div>;
   }
-];
 
-function RecipeList() {
+  if (error) {
+    return <div className="recipe-list-error">Error loading recipes: {error.message}</div>;
+  }
+
+  if (matchedRecipes.length === 0 && pantryIngredients.length > 0) {
+    return (
+      <div className="recipe-list-empty">
+        <p>🍽️ No matching recipes found. Try adding more ingredients to your pantry!</p>
+      </div>
+    );
+  }
+
+  if (pantryIngredients.length === 0) {
+    return (
+      <div className="recipe-list-empty">
+        <p>📝 Add ingredients to your pantry to see matching recipes!</p>
+      </div>
+    );
+  }
+
   return (
     <div className="recipe-list">
-      <h3>📖 Recipes ({RECIPES.length})</h3>
+      <div className="recipe-list-header">
+        <h3>📖 Recipes You Can Make ({matchedRecipes.length})</h3>
+        <p className="match-info">Sorted by ingredient match percentage</p>
+      </div>
       <div className="recipe-grid">
-        {RECIPES.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+        {matchedRecipes.map((recipe) => (
+          <RecipeCard 
+            key={recipe.id} 
+            recipe={recipe}
+            showMatchInfo={true}
+          />
         ))}
       </div>
     </div>
