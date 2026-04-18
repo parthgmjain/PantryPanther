@@ -11,10 +11,20 @@ import './components/RecipeList.css';
 
 function App() {
   const [pantryIngredients, setPantryIngredients] = useState([]);
+  const [searchFilters, setSearchFilters] = useState({
+    searchTerm: '',
+    maxTime: null,
+    minRating: null
+  });
 
-  // This function will be called from PantryList when ingredients change
+  // Handle pantry updates from PantryList
   const handlePantryUpdate = (ingredients) => {
     setPantryIngredients(ingredients);
+  };
+
+  // Handle search filters from RecipeSearch
+  const handleSearch = (filters) => {
+    setSearchFilters(filters);
   };
 
   return (
@@ -26,8 +36,30 @@ function App() {
       
       <main className="app-main">
         <PantryList onUpdate={handlePantryUpdate} />
-        <RecipeSearch />
-        <RecipeList pantryIngredients={pantryIngredients} />
+        <RecipeSearch onSearch={handleSearch} />
+        
+        {/* Show active filters */}
+        {(searchFilters.searchTerm || searchFilters.maxTime || searchFilters.minRating) && (
+          <div className="active-filters">
+            <h4>Active Filters:</h4>
+            <div className="filter-tags">
+              {searchFilters.searchTerm && (
+                <span className="filter-tag">🔍 {searchFilters.searchTerm}</span>
+              )}
+              {searchFilters.maxTime && (
+                <span className="filter-tag">⏱️ Under {searchFilters.maxTime} min</span>
+              )}
+              {searchFilters.minRating && (
+                <span className="filter-tag">⭐ {searchFilters.minRating}+ stars</span>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <RecipeList 
+          pantryIngredients={pantryIngredients} 
+          searchFilters={searchFilters}
+        />
       </main>
     </div>
   );

@@ -1,12 +1,11 @@
 // src/components/RecipeSearch.jsx
 import { useState } from 'react';
 
-function RecipeSearch() {
-  // State for search inputs
+function RecipeSearch({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [maxTime, setMaxTime] = useState('');
   const [minRating, setMinRating] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true); // Start expanded
 
   // Handle search form submission
   const handleSearch = () => {
@@ -17,7 +16,9 @@ function RecipeSearch() {
     };
     
     // Pass filters up to parent component
-    onSearch(filters);
+    if (onSearch) {
+      onSearch(filters);
+    }
   };
 
   // Clear all filters
@@ -25,11 +26,13 @@ function RecipeSearch() {
     setSearchTerm('');
     setMaxTime('');
     setMinRating('');
-    onSearch({
-      searchTerm: '',
-      maxTime: null,
-      minRating: null
-    });
+    if (onSearch) {
+      onSearch({
+        searchTerm: '',
+        maxTime: null,
+        minRating: null
+      });
+    }
   };
 
   // Handle Enter key press on any input
@@ -110,13 +113,31 @@ function RecipeSearch() {
           {/* Quick filter suggestions */}
           <div className="quick-suggestions">
             <span className="suggestion-label">Quick filters:</span>
-            <button onClick={() => { setMaxTime('15'); handleSearch(); }} className="suggestion-btn">
+            <button 
+              onClick={() => { 
+                setMaxTime('15'); 
+                setTimeout(() => handleSearch(), 0);
+              }} 
+              className="suggestion-btn"
+            >
               ⏱️ Under 15 min
             </button>
-            <button onClick={() => { setMinRating('4'); handleSearch(); }} className="suggestion-btn">
+            <button 
+              onClick={() => { 
+                setMinRating('4'); 
+                setTimeout(() => handleSearch(), 0);
+              }} 
+              className="suggestion-btn"
+            >
               ⭐ 4+ stars
             </button>
-            <button onClick={() => { setSearchTerm('chicken'); handleSearch(); }} className="suggestion-btn">
+            <button 
+              onClick={() => { 
+                setSearchTerm('chicken'); 
+                setTimeout(() => handleSearch(), 0);
+              }} 
+              className="suggestion-btn"
+            >
               🍗 Chicken recipes
             </button>
           </div>

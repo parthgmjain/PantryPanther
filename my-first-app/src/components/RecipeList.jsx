@@ -3,9 +3,9 @@ import RecipeCard from './RecipeCard';
 import useRecipes from '../hooks/useRecipes';
 import useMatchedRecipes from '../hooks/useMatchedRecipes';
 
-function RecipeList({ pantryIngredients = [] }) {
+function RecipeList({ pantryIngredients = [], searchFilters = {} }) {
   const { recipes, loading, error } = useRecipes();
-  const matchedRecipes = useMatchedRecipes(recipes, pantryIngredients);
+  const matchedRecipes = useMatchedRecipes(recipes, pantryIngredients, searchFilters);
 
   if (loading) {
     return <div className="recipe-list-loading">Loading recipes...</div>;
@@ -18,15 +18,25 @@ function RecipeList({ pantryIngredients = [] }) {
   if (matchedRecipes.length === 0 && pantryIngredients.length > 0) {
     return (
       <div className="recipe-list-empty">
-        <p>🍽️ No matching recipes found. Try adding more ingredients to your pantry!</p>
+        <p>🍽️ No matching recipes found.</p>
+        <small>Try adding more ingredients or adjusting your filters!</small>
       </div>
     );
   }
 
-  if (pantryIngredients.length === 0) {
+  if (pantryIngredients.length === 0 && matchedRecipes.length === 0) {
     return (
       <div className="recipe-list-empty">
         <p>📝 Add ingredients to your pantry to see matching recipes!</p>
+      </div>
+    );
+  }
+
+  if (matchedRecipes.length === 0 && searchFilters.searchTerm) {
+    return (
+      <div className="recipe-list-empty">
+        <p>🔍 No recipes found matching "{searchFilters.searchTerm}"</p>
+        <small>Try a different search term or clear your filters!</small>
       </div>
     );
   }
@@ -42,7 +52,7 @@ function RecipeList({ pantryIngredients = [] }) {
           <RecipeCard 
             key={recipe.id} 
             recipe={recipe}
-            showMatchInfo={true}
+            showMatchInfo={pantryIngredients.length > 0}
           />
         ))}
       </div>

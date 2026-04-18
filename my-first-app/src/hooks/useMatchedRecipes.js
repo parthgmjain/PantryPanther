@@ -1,38 +1,57 @@
 // src/hooks/useMatchedRecipes.js
 import { useState, useEffect } from 'react';
 
-function useMatchedRecipes(recipes, pantryIngredients) {
+function useMatchedRecipes(recipes, pantryIngredients, searchFilters = {}) {
   const [matchedRecipes, setMatchedRecipes] = useState([]);
 
   useEffect(() => {
-    if (!recipes.length || !pantryIngredients.length) {
+    if (!recipes.length) {
       setMatchedRecipes([]);
       return;
     }
 
-    // Calculate match score for each recipe
-    const recipesWithScores = recipes.map(recipe => {
+    // Helper function to parse time strings to minutes
+    const parseTimeToMinutes = (timeString) => {
+      if (!timeString || timeString === '') return 0;
+      
+      const str = String(timeString).toLowerCase();
+      let totalMinutes = 0;
+      
+      const hoursMatch = str.match(/(\d+(?:\.\d+)?)\s*hrs?/);
+      if (hoursMatch) {
+        totalMinutes += parseFloat(hoursMatch[1]) * 60;
+      }
+      
+      const minsMatch = str.match(/(\d+(?:\.\d+)?)\s*mins?/);
+      if (minsMatch) {
+        totalMinutes += parseFloat(minsMatch[1]);
+      }
+      
+      return totalMinutes || 0;
+    };
+
+    // First, calculate match score for each recipe based on pantry ingredients
+    let recipesWithScores = recipes.map(recipe => {
       // Count how many pantry ingredients match recipe ingredients
       let matchedCount = 0;
       const missingIngredients = [];
       
-      recipe.ingredients.forEach(recipeIngredient => {
-        // Check if any pantry ingredient is contained within the recipe ingredient
-        const isMatched = pantryIngredients.some(pantryIng => 
-          recipeIngredient.includes(pantryIng) || pantryIng.includes(recipeIngredient)
-        );
-        
-        if (isMatched) {
-          matchedCount++;
-        } else {
-          // Only track missing if it's a meaningful ingredient (not too short)
-          if (recipeIngredient.length > 3) {
-            missingIngredients.push(recipeIngredient);
+      if (pantryIngredients.length > 0) {
+        recipe.ingredients.forEach(recipeIngredient => {
+          const isMatched = pantryIngredients.some(pantryIng => 
+            recipeIngredient.includes(pantryIng) || pantryIng.includes(recipeIngredient)
+          );
+          
+          if (isMatched) {
+            matchedCount++;
+          } else {
+            if (recipeIngredient.length > 3) {
+              missingIngredients.push(recipeIngredient);
+            }
           }
-        }
-      });
+        });
+      }
       
-      // Calculate match percentage
       const matchPercentage = recipe.ingredients.length > 0 
         ? (matchedCount / recipe.ingredients.length) * 100 
         : 0;
@@ -42,17 +61,47 @@ function useMatchedRecipes(recipes, pantryIngredients) {
         matchedCount,
         totalIngredients: recipe.ingredients.length,
         matchPercentage,
-        missingIngredients: missingIngredients.slice(0, 5) // Show top 5 missing
+        missingIngredients: missingIngredients.slice(0, 5)
       };
     });
-    
+
+    // Apply search filters
+    let filteredRecipes = recipesWithScores;
+
+    // Filter by search term (recipe name)
+    if (searchFilters.searchTerm && searchFilters.searchTerm !== '') {
+      filteredRecipes = filteredRecipes.filter(recipe => 
+        recipe.name.toLowerCase().includes(searchFilters.searchTerm)
+      );
+    }
+
+    // Filter by max time
+    if (searchFilters.maxTime && searchFilters.maxTime > 0) {
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const totalMinutes = parseTimeToMinutes(recipe.totalTime);
+        return totalMinutes <= searchFilters.maxTime && totalMinutes > 0;
+      });
+    }
+
+    // Filter by minimum rating
+    if (searchFilters.minRating && searchFilters.minRating > 0) {
+      filteredRecipes = filteredRecipes.filter(recipe => 
+        recipe.rating >= searchFilters.minRating
+      );
+    }
+
     // Sort by match percentage (highest first)
-    const sorted = recipesWithScores
-      .filter(recipe => recipe.matchPercentage > 0) // Only show recipes with at least 1 match
+    const sorted = filteredRecipes
+      .filter(recipe => {
+        // If no pantry ingredients, show all recipes (but still apply search filters)
+        if (pantryIngredients.length === 0) return true;
+        // Otherwise only show recipes with at least 1 match
+        return recipe.matchPercentage > 0;
+      })
       .sort((a, b) => b.matchPercentage - a.matchPercentage);
     
     setMatchedRecipes(sorted);
-  }, [recipes, pantryIngredients]);
+  }, [recipes, pantryIngredients, searchFilters]);
 
   return matchedRecipes;
 }
