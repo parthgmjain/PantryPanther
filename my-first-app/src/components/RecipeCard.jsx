@@ -42,10 +42,11 @@ function RecipeCard({ recipe, showMatchInfo = false }) {
 
   const handleSaveClick = (e) => {
     e.stopPropagation();
+    console.log('Save button clicked for recipe:', recipe.id, recipe.name);
     if (saved) {
       unsaveRecipe(recipe.id);
     } else {
-      saveRecipe(recipe);
+      saveRecipe(recipe.id);
     }
   };
 

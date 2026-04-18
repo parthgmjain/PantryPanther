@@ -2,10 +2,29 @@
 import { useState } from 'react';
 import RecipeCard from './RecipeCard';
 import { useSavedRecipes } from '../context/SavedRecipesContext';
+import useRecipes from '../hooks/useRecipes';
 
 function SavedRecipes() {
-  const { savedRecipes, clearAllSaved } = useSavedRecipes();
+  const { savedRecipeIds, clearAllSaved } = useSavedRecipes();
+  const { recipes, loading } = useRecipes();
   const [isExpanded, setIsExpanded] = useState(true);
+
+  // Get full recipe objects from saved IDs
+  const savedRecipes = recipes.filter(recipe => savedRecipeIds.includes(recipe.id));
+
+  if (loading) {
+    return (
+      <div className="saved-recipes">
+        <div className="saved-recipes-header">
+          <h3>❤️ Saved Recipes</h3>
+          <button className="toggle-btn">▼</button>
+        </div>
+        <div className="saved-recipes-loading">
+          <p>Loading saved recipes...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (savedRecipes.length === 0) {
     return (
