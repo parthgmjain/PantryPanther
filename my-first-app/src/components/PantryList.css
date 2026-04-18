@@ -1,0 +1,86 @@
+/* src/components/PantryList.css */
+.pantry-list {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .pantry-list h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .input-section input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .input-section button {
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .input-section button:hover {
+    background-color: #45a049;
+  }
+  
+  .empty-message {
+    color: #999;
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .ingredients-list h3 {
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .ingredient-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .ingredient-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: #e0f2fe;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .ingredient-tag span {
+    color: #0369a1;
+  }
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    padding: 0 4px;
+  }
+  
+  .remove-btn:hover {
+    color: #dc2626;
+  }
