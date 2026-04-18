@@ -84,3 +84,50 @@
   .remove-btn:hover {
     color: #dc2626;
   }
+
+  autocomplete-container {
+    flex: 1;
+    position: relative;
+  }
+  
+  .autocomplete-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .autocomplete-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .suggestion-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-size: 14px;
+  }
+  
+  .suggestion-item:hover,
+  .suggestion-item.selected {
+    background-color: #e0f2fe;
+  }
+  
+  .input-section button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
