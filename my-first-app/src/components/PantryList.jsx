@@ -75,7 +75,7 @@ function PantryList({ onUpdate }) {
 
   return (
     <div className="pantry-list">
-      <h2>📦 My Pantry</h2>
+      <h2>My pantry</h2>
       <p className="pantry-subtitle">Add ingredients you have at home</p>
       
       <div className="input-section">
@@ -95,7 +95,7 @@ function PantryList({ onUpdate }) {
       {/* Suggestion buttons */}
       {suggestions.length > 0 && (
         <div className="ingredient-suggestions">
-          <p>💡 Suggestions:</p>
+          <p>Suggestions</p>
           <div className="suggestion-buttons">
             {suggestions.map((suggestion, index) => (
               <button
@@ -113,7 +113,7 @@ function PantryList({ onUpdate }) {
       {/* Display current pantry ingredients */}
       {ingredients.length === 0 ? (
         <div className="empty-pantry">
-          <p>🍽️ Your pantry is empty</p>
+          <p>Your pantry is empty</p>
           <small>Add ingredients to see matching recipes!</small>
         </div>
       ) : (
@@ -122,13 +122,15 @@ function PantryList({ onUpdate }) {
           <div className="ingredient-tags">
             {ingredients.map((ingredient, index) => (
               <div key={index} className="ingredient-tag">
-                <span>🥕 {ingredient}</span>
+                <span>{ingredient}</span>
                 <button 
                   onClick={() => removeIngredient(index)}
                   className="remove-btn"
                   title="Remove ingredient"
                 >
-                  ✕
+                  <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                    <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                  </svg>
                 </button>
               </div>
             ))}

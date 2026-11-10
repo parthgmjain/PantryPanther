@@ -1,111 +1,106 @@
+/* src/index.css — PantryPanther design tokens (editorial greeting, herb-kitchen face) */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  /* colour: sage chrome, white sheet, tonal panels, one herb-green accent on data and the one filled control */
+  --chrome: #e4f1e4;
+  --ground: #ffffff;
+  --surface: #fff6e3;
+  --raised: #ffffff;
+  --active: #f8e7c8;
+  --border: #f0dfc0;
+  --rule: #f6ead2;
+  --control: #dcc9a6;
+  --text: #2a1d14;
+  --muted: #6b5a4b;
+  --faint: #7d6d5e;
+  --primary: #2a1d14;
+  --primary-hover: #4a3625;
+  --accent: #c8432b;
+  --accent-tint: #fde0d6;
+  --herb: #2f7d4f;
+  --herb-tint: #d8eedf;
+  --positive: #2e7d32;
+  --negative: #b42318;
+  --warning: #92400e;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  /* shape */
+  --radius-card: 22px;
+  --radius-row: 14px;
+  --radius-control: 999px;
+  --gap: 16px;
+  --control-height: 44px;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* type: one serif for the greeting only, one grotesk for everything else */
+  --sans: "Instrument Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  color-scheme: light;
 }
 
 body {
   margin: 0;
+  background: var(--chrome);
+  color: var(--text);
+  font: 15px/1.5 var(--sans);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text);
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
 }
+
+h2 {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
 p {
   margin: 0;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--rule);
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 36px;
+  }
 }

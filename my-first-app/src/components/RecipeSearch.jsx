@@ -45,8 +45,8 @@ function RecipeSearch({ onSearch }) {
   return (
     <div className="recipe-search">
       <div className="search-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>🔍 Search & Filter Recipes</h3>
-        <button className="toggle-btn">{isExpanded ? '▼' : '▶'}</button>
+        <h3>Search & filter</h3>
+        <button className="toggle-btn" aria-label={isExpanded ? 'Collapse' : 'Expand'}>{isExpanded ? '▼' : '▶'}</button>
       </div>
 
       {isExpanded && (
@@ -95,7 +95,7 @@ function RecipeSearch({ onSearch }) {
                 step="0.5"
               />
               <span className="rating-stars">
-                {minRating && `⭐ ${minRating}+ stars`}
+                {minRating && `${minRating}+ stars`}
               </span>
             </div>
           </div>
@@ -103,10 +103,10 @@ function RecipeSearch({ onSearch }) {
           {/* Action Buttons */}
           <div className="search-actions">
             <button onClick={handleSearch} className="search-btn">
-              🔍 Search Recipes
+              Search recipes
             </button>
             <button onClick={clearFilters} className="clear-btn">
-              ✕ Clear All
+              Clear all
             </button>
           </div>
 
@@ -120,7 +120,7 @@ function RecipeSearch({ onSearch }) {
               }} 
               className="suggestion-btn"
             >
-              ⏱️ Under 15 min
+              Under 15 min
             </button>
             <button 
               onClick={() => { 
@@ -129,7 +129,7 @@ function RecipeSearch({ onSearch }) {
               }} 
               className="suggestion-btn"
             >
-              ⭐ 4+ stars
+              4+ stars
             </button>
             <button 
               onClick={() => { 
@@ -138,7 +138,7 @@ function RecipeSearch({ onSearch }) {
               }} 
               className="suggestion-btn"
             >
-              🍗 Chicken recipes
+              Chicken
             </button>
           </div>
         </div>

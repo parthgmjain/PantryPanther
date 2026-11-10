@@ -16,11 +16,11 @@ function SavedRecipes() {
     return (
       <div className="saved-recipes">
         <div className="saved-recipes-header">
-          <h3>❤️ Saved Recipes</h3>
+          <h3>Saved recipes</h3>
           <button className="toggle-btn">▼</button>
         </div>
-        <div className="saved-recipes-loading">
-          <p>Loading saved recipes...</p>
+        <div className="saved-recipes-empty">
+          <p>Loading saved recipes…</p>
         </div>
       </div>
     );
@@ -30,13 +30,15 @@ function SavedRecipes() {
     return (
       <div className="saved-recipes">
         <div className="saved-recipes-header" onClick={() => setIsExpanded(!isExpanded)}>
-          <h3>❤️ Saved Recipes (0)</h3>
-          <button className="toggle-btn">{isExpanded ? '▼' : '▶'}</button>
+          <h3>Saved recipes (0)</h3>
+          <button className="toggle-btn" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
+            {isExpanded ? '▼' : '▶'}
+          </button>
         </div>
         {isExpanded && (
           <div className="saved-recipes-empty">
             <p>No saved recipes yet.</p>
-            <small>Click the ♡ button on any recipe to save it here!</small>
+            <small>Tap the heart on any recipe to keep it here.</small>
           </div>
         )}
       </div>
@@ -46,25 +48,25 @@ function SavedRecipes() {
   return (
     <div className="saved-recipes">
       <div className="saved-recipes-header" onClick={() => setIsExpanded(!isExpanded)}>
-        <h3>❤️ Saved Recipes ({savedRecipes.length})</h3>
+        <h3>Saved recipes ({savedRecipes.length})</h3>
         <div className="saved-header-actions">
-          {savedRecipes.length > 0 && (
-            <button 
-              className="clear-saved-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (window.confirm('Clear all saved recipes?')) {
-                  clearAllSaved();
-                }
-              }}
-            >
-              Clear All
-            </button>
-          )}
-          <button className="toggle-btn">{isExpanded ? '▼' : '▶'}</button>
+          <button
+            className="clear-saved-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (window.confirm('Clear all saved recipes?')) {
+                clearAllSaved();
+              }
+            }}
+          >
+            Clear all
+          </button>
+          <button className="toggle-btn" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
+            {isExpanded ? '▼' : '▶'}
+          </button>
         </div>
       </div>
-      
+
       {isExpanded && (
         <div className="saved-recipes-content">
           <div className="recipe-grid">

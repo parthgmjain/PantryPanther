@@ -28,40 +28,48 @@ function AppContent() {
     setSearchFilters(filters);
   };
 
+  const hasActiveFilters = searchFilters.searchTerm || searchFilters.maxTime || searchFilters.minRating;
+
   return (
     <div className="App">
       <header className="app-header">
-        <h1>🍳 PantryPanther</h1>
-        <p>Find recipes based on what you have!</p>
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">P</span>
+          <span className="brand-name">PantryPanther</span>
+        </div>
+        <span className="brand-scope">Your kitchen</span>
       </header>
-      
+
       <main className="app-main">
+        <div className="app-intro">
+          <h1>What can you cook tonight?</h1>
+          <p>Add what's in your kitchen and we'll find the recipes you can make.</p>
+        </div>
+
         <PantryList onUpdate={handlePantryUpdate} />
-        
-        {/* Saved Recipes Section - appears above search */}
-        <SavedRecipes />
-        
         <RecipeSearch onSearch={handleSearch} />
-        
-        {(searchFilters.searchTerm || searchFilters.maxTime || searchFilters.minRating) && (
+
+        {hasActiveFilters && (
           <div className="active-filters">
-            <h4>Active Filters:</h4>
+            <h4>Active filters</h4>
             <div className="filter-tags">
               {searchFilters.searchTerm && (
-                <span className="filter-tag">🔍 {searchFilters.searchTerm}</span>
+                <span className="filter-tag">Name: {searchFilters.searchTerm}</span>
               )}
               {searchFilters.maxTime && (
-                <span className="filter-tag">⏱️ Under {searchFilters.maxTime} min</span>
+                <span className="filter-tag">Under {searchFilters.maxTime} min</span>
               )}
               {searchFilters.minRating && (
-                <span className="filter-tag">⭐ {searchFilters.minRating}+ stars</span>
+                <span className="filter-tag">{searchFilters.minRating}+ stars</span>
               )}
             </div>
           </div>
         )}
-        
-        <RecipeList 
-          pantryIngredients={pantryIngredients} 
+
+        <SavedRecipes />
+
+        <RecipeList
+          pantryIngredients={pantryIngredients}
           searchFilters={searchFilters}
         />
       </main>

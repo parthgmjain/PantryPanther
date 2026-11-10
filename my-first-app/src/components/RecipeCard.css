@@ -1,101 +1,118 @@
 /* src/components/RecipeCard.css */
+
 .recipe-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s;
-  }
-  
-  .recipe-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .recipe-card h3 {
-    margin-top: 0;
-    color: #333;
-  }
-  
-  .recipe-card p {
-    margin: 8px 0;
-    color: #555;
-  }
-  
-  .recipe-card small {
-    display: block;
-    margin-top: 12px;
-    color: #667eea;
-    text-align: right;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  padding: 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s;
+}
 
-  /* Add to RecipeCard.css */
-.match-indicator {
-    margin: 12px 0;
-    padding: 10px;
-    background: #f9fafb;
-    border-radius: 8px;
-  }
-  
-  .match-bar {
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-  
-  .match-fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.3s ease;
-  }
-  
-  .match-text {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  
-  .missing-ingredients {
-    margin-top: 6px;
-    font-size: 11px;
-    color: #666;
-  }
+.recipe-card:hover {
+  border-color: var(--herb);
+  transform: translateY(-1px);
+}
 
-  /* Add to RecipeCard.css */
+.recipe-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.recipe-card > small {
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--herb);
+}
+
 .recipe-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
-  .recipe-card-header h3 {
-    margin: 0;
-    flex: 1;
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .save-recipe-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 4px 8px;
-    transition: transform 0.2s;
-    line-height: 1;
-  }
-  
-  .save-recipe-btn:hover {
-    transform: scale(1.1);
-  }
-  
-  .save-recipe-btn.saved {
-    color: #dc2626;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.recipe-card-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.save-recipe-btn {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted);
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.save-recipe-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.save-recipe-btn.saved {
+  color: var(--accent);
+  background: var(--accent-tint);
+  border-color: transparent;
+}
+
+.save-recipe-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Match */
+.match-indicator {
+  margin: 6px 0 4px;
+}
+
+.match-bar {
+  height: 6px;
+  background: var(--rule);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.match-fill {
+  height: 100%;
+  border-radius: var(--radius-control);
+  transition: width 0.3s ease;
+}
+
+.match-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.match-text span:last-child {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.missing-ingredients {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
