@@ -1,6 +1,5 @@
 // src/App.jsx
 import { useState } from 'react';
-import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 import { SavedRecipesProvider } from './context/SavedRecipesContext';
 import PantryList from './components/PantryList';
@@ -82,7 +81,6 @@ function App() {
   return (
     <SavedRecipesProvider>
       <AppContent />
-      <Analytics />
     </SavedRecipesProvider>
   );
 }
